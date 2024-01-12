@@ -6,10 +6,18 @@ const schema = buildSchema(`
     name: String
     password: String
     age: Int
+    posts: [Post]
+  }
+
+  type Post {
+    id: ID
+    title: String
+    text: String
   }
 
   type Query {
     getUsers: [User]
+    getUser(id: Int): User
   }
 `);
 
