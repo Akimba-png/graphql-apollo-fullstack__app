@@ -20,11 +20,18 @@ const schema = buildSchema(`
     getUser(id: Int): User
   }
 
+  input PostInput {
+    id: ID
+    title: String!
+    text: String
+  }
+
   input UserInput {
     id: ID
     name: String!
     password: String!
     age: Int!
+    post: PostInput!
   }
 
   type Mutation {
