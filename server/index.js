@@ -3,14 +3,15 @@ import { graphqlHTTP } from 'express-graphql';
 import { schema } from './schema.js';
 import 'dotenv/config';
 
+let count = 3;
 const posts = [
   {
-    id: 0,
+    id: 1,
     title: 'first title',
     text: 'first text',
   },
   {
-    id: 1,
+    id: 2,
     title: 'second title',
     text: 'second text',
   }
@@ -21,6 +22,8 @@ const USERS = [
   {id: 2, name: 'Pete',  password: '123456', age: 30, posts},
 ];
 
+// Весь код выше - моковые начальные данные
+// Ниже расположен код инициализации GraphQL сервера
 const port = process.env.SERVER_PORT || 5000;
 
 const root = {
@@ -29,6 +32,11 @@ const root = {
   },
   getUser({id}) {
     return USERS.find(user => user.id === id);
+  },
+  createUser({user}) {
+    const candidate = { id: count++, ...user};
+    USERS.push(candidate);
+    return candidate;
   }
 };
 
