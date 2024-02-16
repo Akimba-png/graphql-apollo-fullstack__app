@@ -1,7 +1,11 @@
+import { MainScreen } from './components/main-screen/main-screen';
+import { Navigation } from './components/navigation/navigation';
+
 function App() {
   return (
    <>
-     <h1>React apollo app</h1>
+     <Navigation />
+     <MainScreen />
    </>
   )
 }
