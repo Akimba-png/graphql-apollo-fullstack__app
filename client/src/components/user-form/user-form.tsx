@@ -11,7 +11,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { User } from '../../models/user';
 
 function UserForm(): JSX.Element {
-  const [ user, setUser ] = useState<User>({
+  const [ user, setUser ] = useState<Omit<User, 'id'>>({
     name: '',
     email: '',
     password: '',
@@ -40,6 +40,7 @@ function UserForm(): JSX.Element {
       sx={{
         display: 'flex',
         justifyContent: 'center',
+        mb: '30px',
       }}
     >
       <Card
