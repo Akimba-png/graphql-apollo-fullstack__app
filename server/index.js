@@ -1,6 +1,7 @@
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { schema } from './schema.js';
+import cors from 'cors';
 import 'dotenv/config';
 
 let count = 3;
@@ -41,6 +42,9 @@ const root = {
 };
 
 const app = express();
+app.use(cors({
+  credentials: true,
+}));
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true,
