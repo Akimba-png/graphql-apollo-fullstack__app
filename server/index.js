@@ -19,8 +19,8 @@ const posts = [
 ];
 
 const USERS = [
-  {id: 1, name: 'Vasya', password: 'qwerty', age: 25, posts},
-  {id: 2, name: 'Pete',  password: '123456', age: 30, posts},
+  {id: 1, name: 'Vasya', email: 'vasya@mail.net', password: 'qwerty', age: 25, posts},
+  {id: 2, name: 'Pete',  email: 'pete@mail.net', password: '123456', age: 30, posts},
 ];
 
 // Весь код выше - моковые начальные данные
