@@ -31,8 +31,8 @@ const schema = buildSchema(`
     name: String!
     email: String!
     password: String!
-    age: Int!
-    posts: [PostInput]!
+    age: Int
+    posts: [PostInput]
   }
 
   type Mutation {

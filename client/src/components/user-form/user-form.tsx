@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -7,14 +6,24 @@ import {
   Container,
   TextField,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { useMutation } from '@apollo/client';
 import { User } from '../../models/user';
+import { ADD_USER } from '../../graphql/mutations';
+import { GET_USERS } from '../../graphql/queries';
 
 function UserForm(): JSX.Element {
   const [ user, setUser ] = useState<Omit<User, 'id'>>({
     name: '',
     email: '',
     password: '',
+  });
+
+  const [ sendSignup, { loading, error } ] = useMutation(ADD_USER, {
+    refetchQueries: [
+      GET_USERS,
+    ],
   });
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -25,14 +34,19 @@ function UserForm(): JSX.Element {
     });
   };
 
-  const hanldeSubmitChange = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    console.log(user);
-    setUser({
-      name: '',
-      email: '',
-      password: '',
-    });
+  const hanldeSubmitChange = async (evt: FormEvent<HTMLFormElement>) => {
+    try {
+      evt.preventDefault();
+      await sendSignup({variables: { user: user }});
+      setUser({
+        name: '',
+        email: '',
+        password: '',
+      });
+    }
+    catch(error) {
+      () => {};
+    }
   };
 
   return (
@@ -85,13 +99,18 @@ function UserForm(): JSX.Element {
           />
         </CardContent>
         <CardActions>
-          <Button
+          <LoadingButton
+            loading={loading}
             type="submit"
             variant="outlined"
             sx={{ ml: 'auto', mr: '10px', mb: '20px' }}
           >
-            Add user
-          </Button>
+            {error ? (
+              <span>Something goes wrong</span>
+            ) : (
+              <span>Add user</span>
+            )}
+          </LoadingButton>
         </CardActions>
       </Card>
     </Container>
