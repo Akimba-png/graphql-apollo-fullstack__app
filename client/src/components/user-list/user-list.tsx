@@ -1,26 +1,30 @@
 import {
   Box,
-  Button,
   Card,
   CardHeader,
   Container,
   Stack,
   Typography,
 } from '@mui/material';
-import { useQuery } from '@apollo/client';
+import { NetworkStatus, useQuery } from '@apollo/client';
 import { GET_USERS } from '../../graphql/queries';
 import { UserItem } from '../../user-item/user-item';
 import { type User } from '../../models/user';
+import { LoadingButton } from '@mui/lab';
 
 
-const updateButtonHandler = () => {
-  console.log('click');
-};
 
 function UserList(): JSX.Element {
-  const { data, loading, error } = useQuery(GET_USERS);
+  const { data, error, refetch, networkStatus } = useQuery(GET_USERS, {
+    notifyOnNetworkStatusChange: true,
+  });
 
-  if (loading) {
+
+  const updateButtonHandler = () => {
+    refetch();
+  };
+
+  if ( networkStatus === NetworkStatus.loading ) {
     return (
       <Container>
         <Typography variant='h6'component='h3'>
@@ -59,8 +63,9 @@ function UserList(): JSX.Element {
           }}
         >
           <CardHeader component="h5" title="User`s list" />
-          <Button
+          <LoadingButton
             onClick={updateButtonHandler}
+            loading={ networkStatus === NetworkStatus.refetch }
             variant="outlined"
             type="button"
             sx={{
@@ -68,7 +73,7 @@ function UserList(): JSX.Element {
             }}
           >
             Update users
-          </Button>
+          </LoadingButton>
         </Box>
         <Stack>
           {!users.length ? (
